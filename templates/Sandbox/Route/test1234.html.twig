@@ -1,0 +1,21 @@
+<body>
+    <h1>
+        Route::{{ title }}
+    </h1>
+
+    <table>
+        <tr>
+            <th>year :</th><td>{{ year }}</td>
+        </tr>
+        <tr>
+            <th>month :</th><td>{{ month }}</td>
+        </tr>
+        <tr>
+            <th>filename :</th><td>{{ filename }}</td>
+        </tr>
+        <tr>
+            <th>extension :</th><td>{{ ext }}</td>
+        </tr>
+    </table>
+    {{ dump(year, month, filename, ext) }}
+</body>

@@ -1,0 +1,20 @@
+{% extends  'Sandbox/Layouts/layout3.html.twig' %}
+
+{% block title %}{{ parent() }} : vue 6{% endblock %}
+
+{% block titre_principal %}Vue 6 : exercices Twig{% endblock %}
+
+{% block vue %}
+    <h2>Qui suis-je ?</h2>
+    <p>
+        Je suis {{ prenom }} et je suis joignable à <em>{{ mail }}</em>
+    </p>
+
+    <h2>Dump du tableau des formations</h2>
+    <p>Tips : Ctrl-clic sur les petites flèches</p>
+    {{ dump(offre) }}
+    <p>
+        Tips : lorsqu'on manipule des structures complexes, il peut être utile d'avoir
+        un <code>dump</code> sous les yeux pour visualiser l'organisation des données.
+    </p>
+{% endblock %}

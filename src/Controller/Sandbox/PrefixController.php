@@ -45,9 +45,9 @@ class PrefixController extends AbstractController{
         return $this->render('Sandbox/Prefix/hello4.html.twig', $args);
     }
 
-    #[Route('/', name: 'accueil_index')]
+    /*#[Route('/', name: 'accueil_index')]
     public function accueilAction(): Response
     {
         return $this->render('Sandbox/Prefix/accueil.html.twig');
-    }
+    }*/
 }

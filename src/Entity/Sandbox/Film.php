@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Table(name: 'sb_films')]
 #[ORM\Entity(repositoryClass: FilmRepository::class)]
@@ -56,9 +57,12 @@ class Film
     private ?float $prix = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Range(minMessage: 'pas de stock négatif', min: 0)]
     private ?int $quantite = null;
 
-    #[ORM\OneToMany(mappedBy: 'film', targetEntity: Critique::class)]
+
+    #[ORM\OneToMany(targetEntity: Critique::class, mappedBy: 'film')]
+    #[Assert\Valid]
     private Collection $critiques;
 
 
@@ -166,5 +170,20 @@ class Film
         }
 
         return $this;
+    }
+
+    #[Assert\Callback]
+    public function verifStock(ExecutionContextInterface $context)
+    {
+        // rien en stock, alors quantite obligatoirement inférieure ou égale à 0
+        // quelque chose en stock, alors quantite à null ou supérieure à 0
+        if (   (($this->enstock === false) && (is_null($this->quantite) || ($this->quantite > 0)))
+            || (($this->enstock === true) && (! is_null($this->quantite)) && ($this->quantite <= 0)))
+        {
+            $context
+                ->buildViolation('incohérence entre quantite et enstock')
+                ->atPath('quantite')            // message d'erreur affiché au niveau du champ quantite
+                ->addViolation();
+        }
     }
 }
